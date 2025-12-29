@@ -46,10 +46,10 @@ void main() {
     final router = GoRouter(
       initialLocation: '/',
       routes: [
-        GoRoute(path: '/', builder: (_, __) => const SplashScreen()),
+        GoRoute(path: '/', builder:(context, state)  => const SplashScreen()),
         // We use a simple Text widget instead of the real AppWebView!
-        GoRoute(path: '/inappwebview', builder: (_, __) => const Text('DESTINATION_WEBVIEW')),
-        GoRoute(path: '/login', builder: (_, __) => const Text('DESTINATION_LOGIN')),
+        GoRoute(path: '/inappwebview', builder:(context, state)  => const Text('DESTINATION_WEBVIEW')),
+        GoRoute(path: '/login', builder:(context, state)  => const Text('DESTINATION_LOGIN')),
       ],
     );
 
@@ -75,9 +75,9 @@ void main() {
     final router = GoRouter(
       initialLocation: '/',
       routes: [
-        GoRoute(path: '/', builder: (_, __) => const SplashScreen()),
-        GoRoute(path: '/inappwebview', builder: (_, __) => const Text('DESTINATION_WEBVIEW')),
-        GoRoute(path: '/login', builder: (_, __) => const Text('DESTINATION_LOGIN')),
+        GoRoute(path: '/', builder: (context, state)  => const SplashScreen()),
+        GoRoute(path: '/inappwebview', builder: (context, state)  => const Text('DESTINATION_WEBVIEW')),
+        GoRoute(path: '/login', builder: (context, state)  => const Text('DESTINATION_LOGIN')),
       ],
     );
 
