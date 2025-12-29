@@ -14,7 +14,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _checkLastSignedAccount();
   }
