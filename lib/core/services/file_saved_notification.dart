@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,7 +18,9 @@ void initializeNotifications() async {
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
     onDidReceiveNotificationResponse: (NotificationResponse details) async {
-      print("⛔onDidReceiveNotificationResponse: ⛔$details⛔");
+      if (kDebugMode) {
+        print("⛔onDidReceiveNotificationResponse: ⛔$details⛔");
+      }
       if (details.payload != null) {
         // فتح الملف عند الضغط على الإشعار
         await OpenFilex.open(details.payload!);
@@ -53,7 +56,7 @@ Future<void> downloadFinishedNotification(
   await flutterLocalNotificationsPlugin.show(
     fileName.hashCode,
     'Download Completed',
-    '$fileName',
+    fileName,
     platformChannelSpecifics,
     payload: filePath,
   );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quantum_space/core/routers/routers.dart';
-import 'package:quantum_space/features/auth/presentation/pages/login_page.dart';
 
 import 'l10n/app_localizations.dart';
 
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
           onSecondary: Color(0xFF8F8F8F),
         ),
       ),
-      routerConfig: AppRouter,
+      routerConfig: appRouter,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

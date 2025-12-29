@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:quantum_space/features/auth/data/module/odoo_account_module.dart';
 import 'package:quantum_space/features/auth/data/repository_impl/auth_repository.dart';

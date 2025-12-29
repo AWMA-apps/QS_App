@@ -19,7 +19,7 @@ class AuthRepository {
       url: url,
       username: username,
       password: password,
-      session_id: session.id,
+      sessionId: session.id,
       personName: session.userName,
     );
     await _accountNotifier.newLogin(module);

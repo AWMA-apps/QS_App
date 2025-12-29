@@ -5,7 +5,7 @@ class OdooAccountModule extends OdooAccount {
     required super.url,
     required super.username,
     required super.password,
-    required super.session_id,
+    required super.sessionId,
     required super.personName,
   });
 
@@ -15,7 +15,7 @@ class OdooAccountModule extends OdooAccount {
       "username": username,
       "password": password,
       "personName": personName,
-      "session_id": session_id,
+      "session_id": sessionId,
     };
   }
 
@@ -25,21 +25,21 @@ class OdooAccountModule extends OdooAccount {
       username: json["username"],
       password: json["password"],
       personName: json["personName"],
-      session_id: json["session_id"],
+      sessionId: json["session_id"],
     );
   }
 
   OdooAccountModule copyWith(
     {
-    String? session_id,
+    String? sessionId,
     String? password,
   }) {
     return OdooAccountModule(
-      url: this.url,
-      username: this.username,
+      url: url,
+      username:username,
       password: password ?? this.password,
-      personName: this.personName,
-      session_id: session_id ?? this.session_id,
+      personName: personName,
+      sessionId: sessionId ?? this.sessionId,
     );
   }
 }

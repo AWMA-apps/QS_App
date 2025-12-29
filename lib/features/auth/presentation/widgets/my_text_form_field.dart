@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyTextFormField extends StatefulWidget {
   final String labelText;
   final IconData prefixIcon;
-  final String? validator_error_text;
+  final String? validatorErrorText;
   final TextEditingController controller;
   final TextInputType keyboardType;
   final Iterable<String> autoFillHint;
@@ -15,7 +15,7 @@ class MyTextFormField extends StatefulWidget {
     required this.prefixIcon,
     required this.keyboardType,
     required this.autoFillHint,
-    this.validator_error_text,
+    this.validatorErrorText,
   });
 
   @override
@@ -30,7 +30,7 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
       autofocus: false,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return widget.validator_error_text;
+          return widget.validatorErrorText;
         } else {
           return null;
         }

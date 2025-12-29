@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -14,13 +15,27 @@ import '../../../../core/services/file_saved_notification.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/provider/account_provider.dart';
 
-class AppWebView extends ConsumerWidget {
+class AppWebView extends ConsumerStatefulWidget {
   final OdooAccountModule account;
-  DateTime? _lastPressedAt;
-  final CookieManager cookieManager = CookieManager.instance();
 
   AppWebView({super.key, required this.account}) {
     initializeNotifications();
+  }
+
+  @override
+  ConsumerState<AppWebView> createState() => _AppWebViewState();
+}
+
+class _AppWebViewState extends ConsumerState<AppWebView> {
+  DateTime? _lastPressedAt;
+  late CookieManager cookieManager;
+  late OdooAccountModule account;
+
+  @override
+  void initState() {
+    super.initState();
+    account = widget.account;
+    cookieManager=CookieManager.instance();
   }
 
   Future<void> _handlePopScope(
@@ -51,7 +66,9 @@ class AppWebView extends ConsumerWidget {
     NavigationAction navigationAction,
   ) async {
     var url = navigationAction.request.url.toString();
-    print("⛔shouldOverrideUrlLoading⛔ $url⛔");
+    if (kDebugMode) {
+      print("⛔shouldOverrideUrlLoading⛔ $url⛔");
+    }
     if (url.contains("session/logout")) {
       await CookieManager.instance().deleteAllCookies();
       await controller.evaluateJavascript(
@@ -94,7 +111,7 @@ class AppWebView extends ConsumerWidget {
               controller,
             ),
         onLoadStop: (controller, url) =>
-            controller.evaluateJavascript(source: JsScripts.js_blobHandler),
+            controller.evaluateJavascript(source: JsScripts.jsBlobHandler),
         onLoadStart: (controller, url) =>
             _checkSession(url.toString(), account, ref, context),
         onProgressChanged: (_, p) =>
@@ -118,7 +135,7 @@ class AppWebView extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final progress = ref.watch(loadingProgressProvider);
     final logic = ref.read(webviewLogicProvider);
     final tr = AppLocalizations.of(context);
@@ -150,7 +167,9 @@ void _checkSession(
     final accProvider = ref.read(accountsProvider.notifier);
     accProvider.deleteLastActiveAccount(account);
     context.pushReplacement("/login");
-    print("⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔");
+    if (kDebugMode) {
+      print("⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔⛔");
+    }
   }
 }
 
@@ -171,7 +190,7 @@ void _onDownloadStartRequest(
     logic.downloadFie(
       urlString,
       downloadRequest.suggestedFilename!,
-      account.session_id,
+      account.sessionId,
       cookieManager,
     );
   }
@@ -186,7 +205,7 @@ void _onWebViewCreated(
   await cookieManager.setCookie(
     url: WebUri(account.url),
     name: "session_id",
-    value: account.session_id,
+    value: account.sessionId,
     domain: WebUri(account.url).host,
     path: "/",
     isSecure: true,
@@ -211,7 +230,9 @@ void _onWebViewCreated(
           fileName,
         );
         if (path != null) downloadFinishedNotification(fileName, path);
-        print("✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅");
+        if (kDebugMode) {
+          print("✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅");
+        }
       } catch (e) {
         debugPrint("Error decoding base64: $e");
       }

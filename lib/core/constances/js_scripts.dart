@@ -1,5 +1,5 @@
 class JsScripts {
-  static const String js_blobHandler="""
+  static const String jsBlobHandler="""
       window.atob_blob = function(blobUrl,suggestedName) {
         fetch(blobUrl).then(r => r.blob()).then(blob => {
           var reader = new FileReader();

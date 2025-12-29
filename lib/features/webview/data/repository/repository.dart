@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quantum_space/features/webview/domain/repository/repository_intf.dart';
@@ -31,7 +32,9 @@ class WebviewRepositoryImpl extends WebViewRepositoryIntrf {
       await file.writeAsBytes(bytes);
       return filePath;
     } catch (e) {
-      print("Save File Error ❌$e");
+      if (kDebugMode) {
+        print("Save File Error ❌$e");
+      }
     }
     return null;
   }

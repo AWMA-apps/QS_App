@@ -39,7 +39,7 @@ class AccountNotifier extends StateNotifier<List<OdooAccountModule>> {
       key: secureAccountsKey,
       value: json.encode(state),
     );
-    print(state.length);
+   // print(state.length);
   }
 
   // awma-mo  & awma-awap
@@ -79,7 +79,7 @@ class AccountNotifier extends StateNotifier<List<OdooAccountModule>> {
       key: lastActiveAccountKey,
       value: json.encode(account),
     );
-    print("setLastActiveAccount: ${account.username}");
+    //print("setLastActiveAccount: ${account.username}");
   }
 
   Future<void> deleteLastActiveAccount(OdooAccountModule account) async {
@@ -90,7 +90,7 @@ class AccountNotifier extends StateNotifier<List<OdooAccountModule>> {
   Future<void> resetSessionId(OdooAccountModule account) async{
     state=state.map((e) {
       if(e.url==account.url && e.username==account.username){
-        return e.copyWith(session_id: "");
+        return e.copyWith(sessionId: "");
       }else{
         return e;
       }

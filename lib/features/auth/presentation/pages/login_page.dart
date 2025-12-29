@@ -1,19 +1,13 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:odoo_rpc/odoo_rpc.dart';
-import 'package:quantum_space/core/odoo_api/odoo_connect.dart';
-import 'package:quantum_space/features/auth/data/module/odoo_account_module.dart';
 import 'package:quantum_space/features/auth/presentation/provider/account_provider.dart';
 import 'package:quantum_space/features/auth/presentation/provider/login_state_provider.dart';
 import 'package:quantum_space/features/auth/presentation/widgets/my_text_form_field.dart';
 import 'package:quantum_space/l10n/app_localizations.dart';
 
 import '../../../../util/util.dart';
-import '../../../webview/presentation/pages/webview_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -26,7 +20,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _urlController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
-  bool _isLoading = false;
 
   void _showAllAccounts() {
     showModalBottomSheet(
@@ -42,7 +35,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           builder: (context, ref, child) {
             final accounts = ref.watch(accountsProvider);
             final loggingState = ref.watch(loginStateProvider);
-            bool _isLogging = loggingState.loginStatus == LoginStatuses.loading;
+            bool isLogging = loggingState.loginStatus == LoginStatuses.loading;
 
             if (accounts.isEmpty) {
               return Center(
@@ -57,7 +50,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  if (_isLogging) LinearProgressIndicator(),
+                  if (isLogging) LinearProgressIndicator(),
                   const SizedBox(height: 10),
                   Expanded(
                     child: ListView.builder(
@@ -134,15 +127,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final tr = AppLocalizations.of(context)!;
     final loginState = ref.watch(loginStateProvider);
 
     ref.listen(loginStateProvider, (previous, next) {
       if (next.loginStatus == LoginStatuses.error) {
-        setState(() {
-          _isLoading = false;
-        });
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(next.error!)));
@@ -165,7 +155,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               child: Image.asset("assets/images/odoo_logo.png", width: 120),
             ),
             Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 children: [
                   MyTextFormField(
@@ -174,7 +164,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     controller: _urlController,
                     labelText: tr.server_address,
                     prefixIcon: Icons.link,
-                    validator_error_text: tr.server_is_required,
+                    validatorErrorText: tr.server_is_required,
                   ),
                   const SizedBox(height: 12),
                   MyTextFormField(
@@ -183,7 +173,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     controller: _emailController,
                     labelText: tr.username,
                     prefixIcon: Icons.person_3_outlined,
-                    validator_error_text: tr.username_is_required,
+                    validatorErrorText: tr.username_is_required,
                   ),
                   const SizedBox(height: 12),
                   MyTextFormField(
@@ -192,14 +182,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     controller: _passController,
                     labelText: tr.password,
                     prefixIcon: Icons.lock_outline,
-                    validator_error_text: tr.password_is_required,
+                    validatorErrorText: tr.password_is_required,
                   ),
                   const SizedBox(height: 18),
                   ElevatedButton(
                     onPressed: (loginState.loginStatus == LoginStatuses.loading)
                         ? null
                         : () {
-                            if (_formKey.currentState!.validate()) {
+                            if (formKey.currentState!.validate()) {
                               ref
                                   .read(loginStateProvider.notifier)
                                   .login(
