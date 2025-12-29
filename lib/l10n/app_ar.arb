@@ -1,0 +1,15 @@
+{
+  "server_address": "عنوان الخادم",
+  "username": "اسم المستخدم/البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "login": "تسجيل الدخول",
+  "or_select_another_account": "أو اختر حساب آخر",
+  "no_accounts_left": "لا يوجد حسابات بعد",
+
+  "server_is_required": "عنوان الخادم مطلوب",
+  "username_is_required": "ادخل اسم المستخدم او البريد الالكتروني",
+  "password_is_required": "ادخل كلمة المرور",
+
+  "press_back_again_to_exit": "اضغط مرة اخرى للخروج",
+  "re_login" : "سجل دخول"
+}
