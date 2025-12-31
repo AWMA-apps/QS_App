@@ -3,7 +3,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
-import 'package:quantum_space/core/services/file_saved_notification.dart';
+import 'package:quantum_space/core/services/show_notification.dart';
 import 'package:quantum_space/features/webview/data/repository/repository.dart';
 
 final loadingProgressProvider = StateProvider<int>((ref) => 0);
@@ -35,7 +35,7 @@ class WebviewLogic {
         final webRepo = WebviewRepositoryImpl();
         final path = await webRepo.saveFile(response.bodyBytes, suggestedName);
         if(path !=null){
-          downloadFinishedNotification(suggestedName, path);
+          showDownloadFinishedNotification(suggestedName, path);
         }
       }
     } catch (e) {

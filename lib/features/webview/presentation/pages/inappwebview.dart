@@ -10,8 +10,9 @@ import 'package:quantum_space/features/auth/data/module/odoo_account_module.dart
 import 'package:quantum_space/features/webview/data/repository/repository.dart';
 import 'package:quantum_space/features/webview/presentation/provider/provider.dart';
 
-import '../../../../core/constances/js_scripts.dart';
-import '../../../../core/services/file_saved_notification.dart';
+import '../../../../core/constants/js_scripts.dart';
+import '../../../../core/services/fcm_notifications.dart';
+import '../../../../core/services/show_notification.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/provider/account_provider.dart';
 
@@ -20,6 +21,7 @@ class AppWebView extends ConsumerStatefulWidget {
 
   AppWebView({super.key, required this.account}) {
     initializeNotifications();
+    FCMNotificationService().initNotifications();
   }
 
   @override
@@ -35,7 +37,7 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
   void initState() {
     super.initState();
     account = widget.account;
-    cookieManager=CookieManager.instance();
+    cookieManager = CookieManager.instance();
   }
 
   Future<void> _handlePopScope(
@@ -229,7 +231,7 @@ void _onWebViewCreated(
           decodedBytes,
           fileName,
         );
-        if (path != null) downloadFinishedNotification(fileName, path);
+        if (path != null) showDownloadFinishedNotification(fileName, path);
         if (kDebugMode) {
           print("✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅");
         }
