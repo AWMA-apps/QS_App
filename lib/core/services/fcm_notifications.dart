@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:quantum_space/core/network/my_dio.dart';

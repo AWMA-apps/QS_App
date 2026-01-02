@@ -42,9 +42,7 @@ class AccountNotifier extends StateNotifier<List<OdooAccountModule>> {
    // print(state.length);
   }
 
-  // awma-mo  & awma-awap
   Future<void> deleteAccount(OdooAccountModule account) async {
-    // awma-mo
     state = state
         .where(
           (element) =>

@@ -6,8 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quantum_space/core/network/my_dio.dart';
-import 'package:quantum_space/core/network/my_odoo_client.dart';
-import 'package:quantum_space/core/services/fcm_notifications.dart';
 import 'package:quantum_space/features/webview/domain/repository/repository_intf.dart';
 
 class WebviewRepositoryImpl extends WebViewRepositoryIntrf {
@@ -46,7 +44,6 @@ class WebviewRepositoryImpl extends WebViewRepositoryIntrf {
 }
 
 class NotificationsRepositoryImpl extends NotificationsRepositoryIntrf {
-  final MyOdooClient _odooConnect = MyOdooClient();
   final MyDio myDio;
 
   NotificationsRepositoryImpl(this.myDio);
@@ -58,7 +55,7 @@ class NotificationsRepositoryImpl extends NotificationsRepositoryIntrf {
       data: {"fcm_token": token},
       options: Options(
         headers: {
-          "Cookie": "session_id=$sessionId", // مهم جداً ليعرف أودو من أنت
+          "Cookie": "session_id=$sessionId",
         },
       ),
     );

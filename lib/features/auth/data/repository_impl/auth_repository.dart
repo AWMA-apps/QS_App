@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quantum_space/core/network/my_odoo_client.dart';
+import 'package:odoo_rpc/odoo_rpc.dart';
+import 'package:quantum_space/core/network/my_odoo_connect.dart';
 import 'package:quantum_space/features/auth/data/module/odoo_account_module.dart';
 import 'package:quantum_space/features/auth/presentation/provider/account_provider.dart';
 
-class AuthRepository {
-  final MyOdooClient _odooConnect = MyOdooClient();
-  final AccountNotifier _accountNotifier;
+import '../../../../util/util.dart';
 
+class AuthRepository {
+  final AccountNotifier _accountNotifier;
   AuthRepository(this._accountNotifier);
 
   Future<OdooAccountModule> login(
@@ -14,7 +15,13 @@ class AuthRepository {
     String username,
     String password,
   ) async {
-    final session = await _odooConnect.getSession(url, username, password);
+    final OdooClient odooClient = MyOdooConnect(url).odooClient;
+    final session = await odooClient.authenticate(
+      Util().dbName(url),
+      username,
+      password,
+    );
+    odooClient.close();
     final OdooAccountModule module = OdooAccountModule(
       url: url,
       username: username,
