@@ -3,9 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 import 'package:quantum_space/util/util.dart';
 
-class OdooConnect {
+class MyOdooClient {
   late OdooClient _client;
-  int lastSeenNotificationId = 0;
 
   void initialize(String url) {
     _client = OdooClient(url);
@@ -23,10 +22,7 @@ class OdooConnect {
         username,
         password,
       );
-      //final res = await _client.callRPC('/web/session/modules', 'call', {});
-      //print('Installed modules: \n' + res.toString());
       _client.close();
-      //checkForNotifications();
       return session;
     } on OdooException catch (e) {
       if (kDebugMode) {
@@ -43,4 +39,13 @@ class OdooConnect {
     }
   }
 
+  void updateTokenInOdoo(String token,String url,int uid)  {
+    _client = OdooClient(url);
+    _client.callKw({
+      'model': 'res.users',
+      'method': 'write',
+      'args': [uid, {'fcm_token': token}],
+      'kwargs': {},
+    });
+  }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quantum_space/core/odoo_api/odoo_connect.dart';
+import 'package:quantum_space/core/network/my_odoo_client.dart';
 import 'package:quantum_space/features/auth/data/module/odoo_account_module.dart';
 import 'package:quantum_space/features/auth/presentation/provider/account_provider.dart';
 
 class AuthRepository {
-  final OdooConnect _odooConnect = OdooConnect();
+  final MyOdooClient _odooConnect = MyOdooClient();
   final AccountNotifier _accountNotifier;
 
   AuthRepository(this._accountNotifier);
@@ -21,6 +21,7 @@ class AuthRepository {
       password: password,
       sessionId: session.id,
       personName: session.userName,
+      uid: session.userId,
     );
     await _accountNotifier.newLogin(module);
     return module;

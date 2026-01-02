@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quantum_space/core/network/my_dio.dart';
 import 'package:quantum_space/features/auth/data/module/odoo_account_module.dart';
 import 'package:quantum_space/features/webview/data/repository/repository.dart';
 import 'package:quantum_space/features/webview/presentation/provider/provider.dart';
@@ -21,7 +22,7 @@ class AppWebView extends ConsumerStatefulWidget {
 
   AppWebView({super.key, required this.account}) {
     initializeNotifications();
-    FCMNotificationService().initNotifications();
+    FCMNotificationService().initNotifications(account);
   }
 
   @override
@@ -98,6 +99,7 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
           databaseEnabled: true,
           domStorageEnabled: true,
           mediaPlaybackRequiresUserGesture: false,
+          allowsInlineMediaPlayback: true,
           allowFileAccess: true,
         ),
         shouldOverrideUrlLoading: (controller, navigationAction) =>
@@ -118,6 +120,10 @@ class _AppWebViewState extends ConsumerState<AppWebView> {
             _checkSession(url.toString(), account, ref, context),
         onProgressChanged: (_, p) =>
             ref.read(loadingProgressProvider.notifier).state = p,
+        onPermissionRequest: (controller, permissionRequest) async => PermissionResponse(
+          resources: permissionRequest.resources,
+          action: PermissionResponseAction.GRANT,
+        ),
       ),
     );
   }
@@ -167,6 +173,7 @@ void _checkSession(
   if (url == null) return;
   if (url.contains("/login?") || url.contains("session/logout")) {
     final accProvider = ref.read(accountsProvider.notifier);
+    NotificationsRepositoryImpl(MyDio(account.url)).deleteToken();
     accProvider.deleteLastActiveAccount(account);
     context.pushReplacement("/login");
     if (kDebugMode) {

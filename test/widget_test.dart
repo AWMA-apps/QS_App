@@ -40,7 +40,8 @@ void main() {
       username: "user",
       password: "password",
       sessionId: "session",
-      personName: "name"
+      personName: "name",
+      uid: 1,
     )); // Return any non-null object
 
     final router = GoRouter(

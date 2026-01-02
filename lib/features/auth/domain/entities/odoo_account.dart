@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:equatable/equatable.dart';
 
 class OdooAccount extends Equatable {
@@ -6,6 +8,7 @@ class OdooAccount extends Equatable {
   final String password;
   final String sessionId;
   final String personName;
+  final int uid;
 
   const OdooAccount({
     required this.url,
@@ -13,6 +16,7 @@ class OdooAccount extends Equatable {
     required this.password,
     required this.sessionId,
     required this.personName,
+    required this.uid,
   });
 
   @override

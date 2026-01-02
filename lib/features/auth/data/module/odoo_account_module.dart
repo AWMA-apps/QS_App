@@ -7,6 +7,7 @@ class OdooAccountModule extends OdooAccount {
     required super.password,
     required super.sessionId,
     required super.personName,
+    required super.uid,
   });
 
   Map<String, dynamic> toJson() {
@@ -16,6 +17,7 @@ class OdooAccountModule extends OdooAccount {
       "password": password,
       "personName": personName,
       "session_id": sessionId,
+      "uid": uid,
     };
   }
 
@@ -26,20 +28,18 @@ class OdooAccountModule extends OdooAccount {
       password: json["password"],
       personName: json["personName"],
       sessionId: json["session_id"],
+      uid: json["uid"],
     );
   }
 
-  OdooAccountModule copyWith(
-    {
-    String? sessionId,
-    String? password,
-  }) {
+  OdooAccountModule copyWith({String? sessionId, String? password}) {
     return OdooAccountModule(
       url: url,
-      username:username,
+      username: username,
       password: password ?? this.password,
       personName: personName,
       sessionId: sessionId ?? this.sessionId,
+      uid: uid,
     );
   }
 }

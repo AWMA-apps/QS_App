@@ -100,7 +100,6 @@ class AccountNotifier extends StateNotifier<List<OdooAccountModule>> {
       value: json.encode(state),
     );
   }
-
 }
 
 final accountsProvider =
