@@ -44,10 +44,14 @@ android {
 
     signingConfigs {
         create("release") {
-            keyAlias = keystoreProperties.getProperty("keyAlias")
-            keyPassword = keystoreProperties.getProperty("keyPassword")
-            storeFile = keystoreProperties.getProperty("storeFile")?.let { file(it) }
-            storePassword = keystoreProperties.getProperty("storePassword")
+            val properties = keystoreProperties
+            keyAlias = properties.getProperty("keyAlias")
+            keyPassword = properties.getProperty("keyPassword")
+            storePassword = properties.getProperty("storePassword")
+
+            val keystorePath = properties.getProperty("storeFile")
+            // This resolves the path relative to the 'app' directory
+            storeFile = if (keystorePath != null) file(keystorePath) else null
         }
     }
 
