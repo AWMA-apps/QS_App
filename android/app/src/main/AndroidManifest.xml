@@ -43,7 +43,7 @@
     </queries>
 
     <application
-        android:label="quantum_space"
+        android:label="Quantum Space"
         android:name="${applicationName}"
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/launcher_icon">
